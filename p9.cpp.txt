@@ -1,0 +1,162 @@
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+struct node
+{
+	string key;
+	string mean;
+	int bf;
+	node *left,*right;	
+};
+
+class avltree
+{
+	public:
+		node* root;
+		avltree()
+		{
+			root=NULL;
+		}
+		node* create();
+		void insert();
+		void display(node* );
+		int height(node*);
+		int bf(node*);
+	
+		
+};
+
+node* avltree :: create()
+{
+	node* nnode = new node;
+	cout<<"\nEnter keyword :- ";
+	cin>>nnode->key;
+	cout<<"\nEnter the meaning of "<<nnode->key<<" :- ";
+	cin>>nnode->mean;
+	nnode->left=nnode->right=NULL;
+	nnode->bf=0; 	
+	return nnode;
+}
+
+void avltree :: insert()
+{
+	node* nnode=create();
+	if(root==NULL)
+	{
+		root=nnode;
+	}
+	else
+	{
+		node * temp=root;
+		while(1)
+		{
+			if(temp-> key > nnode-> key)
+			{
+				if(temp->left == NULL)
+				{
+					temp->left=nnode;
+					break;
+				}
+				else
+				{
+					temp=temp->left;
+				}
+			}
+			else
+			{
+				if(temp->right == NULL)
+				{
+					temp->right=nnode;
+					break;
+				}
+				else
+				{
+					temp=temp->right;
+				}
+			}
+		}
+	}
+}
+
+int avltree :: height(node* root)
+{
+	int heightR,heightL;
+    if(root == NULL)
+    {
+        return 0;
+    }
+    if(root->left == NULL && root -> right == NULL)
+    {
+        return 0;
+    }
+
+    heightL = height(root -> left);
+    heightR = height(root -> right);
+    if(heightR > heightL)
+    {
+        return heightR+1;
+    }
+    else
+    {
+        return heightL+1;
+    }
+}
+
+int avltree :: bf(node* root)
+{
+	int bf,bl,br;
+	if(root->left == NULL)
+	{
+		bl=0;
+	}
+	else
+	{
+		bl=height(root->left)+1;
+	}
+	if(root->right == NULL)
+	{
+		br=0;
+	}
+	else
+	{
+		br=height(root->right)+1;
+	}
+	bf=bl-br;
+	return bf;
+}
+
+void avltree :: display(node* root)
+{
+	if(root!=NULL)
+	{
+		display(root->left);
+		cout<<root->key<<"\t=>"<<bf(root)<<endl;
+		display(root->right);
+	}
+}
+
+int main()
+{
+	avltree a;
+	a.insert();
+	a.insert();
+	a.insert();
+	a.insert();
+	a.display(a.root);
+	
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
